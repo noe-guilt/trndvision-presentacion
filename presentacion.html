@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación TRNDVISION - Informe Oracle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0c10;
+            color: #e5e7eb;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+ 
+        /* Slide Container */
+        .slide {
+            background: linear-gradient(135deg, #11141a 0%, #0c0e12 100%);
+            border: 1px solid #1f293d;
+            border-radius: 16px;
+            min-height: 90vh;
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 50px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+ 
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f293d;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+ 
+        .slide-header h2 {
+            font-size: 24pt;
+            font-weight: 700;
+            color: #ccff00; /* Streetwear Lime Accent */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+ 
+        .slide-header .section-tag {
+            background-color: #1f293d;
+            color: #9ca3af;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 10pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+ 
+        .slide-body {
+            flex-grow: 1;
+            font-size: 13pt;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+ 
+        .slide-footer {
+            margin-top: 30px;
+            border-top: 1px solid #1f293d;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10pt;
+            color: #6b7280;
+        }
+ 
+        h3 {
+            color: #ffffff;
+            font-size: 16pt;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+ 
+        h3::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #ccff00;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+ 
+        p { margin-bottom: 15px; }
+        ul, ol { margin-left: 25px; margin-bottom: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #ffffff; }
+ 
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+ 
+        .db-table-mock {
+            background: #11141a;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+ 
+        .db-table-header {
+            background: #1f293d;
+            padding: 8px 12px;
+            font-weight: bold;
+            color: #ccff00;
+            border-bottom: 1px solid #2d3748;
+            font-size: 11pt;
+        }
+ 
+        .db-table-row {
+            padding: 6px 12px;
+            border-bottom: 1px solid #1a202c;
+            display: flex;
+            justify-content: space-between;
+        }
+        .db-table-row:last-child { border-bottom: none; }
+ 
+        .pk-badge { color: #facc15; font-weight: bold; font-size: 9pt; }
+        .fk-badge { color: #60a5fa; font-weight: bold; font-size: 9pt; }
+        .type-badge { color: #9ca3af; font-size: 9pt; }
+ 
+        /* Code Block Styling */
+        .sql-block {
+            background-color: #011627;
+            color: #d6deeb;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ccff00;
+            margin: 15px 0;
+            font-size: 10.5pt;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+ 
+        .sql-keyword { color: #ff7b72; font-weight: bold; }
+        .sql-type { color: #79c0ff; }
+        .sql-const { color: #d2a6ff; }
+ 
+        .card {
+            background: rgba(31, 41, 61, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .card-accent { border-left: 4px solid #ccff00; }
+ 
+        .mini-card {
+            background: rgba(31, 41, 61, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 3px solid #60a5fa;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .mini-card strong { color: #ccff00; font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.5px; }
+        .mini-card p { font-size: 10.5pt; margin: 6px 0 0 0; color: #d1d5db; }
+        .mini-card .ex { color: #93c5fd; font-style: italic; }
+ 
+        .maint-card { border-left-color: #facc15; }
+        .maint-card strong { color: #facc15; }
+ 
+        /* Title Slide Custom Styling */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a2333 0%, #0b0c10 100%);
+        }
+ 
+        .title-slide h1 {
+            font-size: 42pt;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+ 
+        .title-slide h1 span { color: #ccff00; }
+ 
+        .title-slide h2 {
+            font-size: 18pt;
+            color: #9ca3af;
+            font-weight: 400;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+ 
+        .meta-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+ 
+        .meta-box table { width: 100%; border-collapse: collapse; }
+        .meta-box td { padding: 8px; text-align: left; }
+        .meta-box td.label { color: #6b7280; font-weight: 600; width: 35%; }
+        .meta-box td.value { color: #ffffff; }
+ 
+        /* Navigation Floating Control Bar */
+        .nav-container {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(17, 20, 26, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1f293d;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            flex-wrap: wrap;
+            max-width: 95vw;
+        }
+ 
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 15px;
+            font-size: 10pt;
+            transition: all 0.2s;
+        }
+ 
+        .nav-btn:hover { color: #ccff00; background: rgba(204, 255, 0, 0.1); }
+ 
+        .star-schema { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
+        .schema-row { display: flex; justify-content: space-around; width: 100%; gap: 15px; }
+ 
+        @media print {
+            .slide { page-break-after: always; margin: 0; width: 100%; min-height: 100vh; border: none; border-radius: 0; }
+            .nav-container { display: none; }
+        }
+    </style>
+</head>
+<body>
+ 
+    <div class="nav-container">
+        <button class="nav-btn" onclick="document.getElementById('slide1').scrollIntoView({behavior: 'smooth'})">Inicio</button>
+        <button class="nav-btn" onclick="document.getElementById('slide2').scrollIntoView({behavior: 'smooth'})">Intro</button>
+        <button class="nav-btn" onclick="document.getElementById('slide4').scrollIntoView({behavior: 'smooth'})">1. Planificación</button>
+        <button class="nav-btn" onclick="document.getElementById('slide7').scrollIntoView({behavior: 'smooth'})">2. Conceptual</button>
+        <button class="nav-btn" onclick="document.getElementById('slide9').scrollIntoView({behavior: 'smooth'})">3. Lógico</button>
+        <button class="nav-btn" onclick="document.getElementById('slide12').scrollIntoView({behavior: 'smooth'})">4. Físico</button>
+        <button class="nav-btn" onclick="document.getElementById('slide14').scrollIntoView({behavior: 'smooth'})">5. Implementación</button>
+        <button class="nav-btn" onclick="document.getElementById('slide16').scrollIntoView({behavior: 'smooth'})">5.3 Pruebas</button>
+        <button class="nav-btn" onclick="document.getElementById('slide18').scrollIntoView({behavior: 'smooth'})">6. Mantenimiento</button>
+        <button class="nav-btn" onclick="document.getElementById('slide20').scrollIntoView({behavior: 'smooth'})">Fin</button>
+    </div>
+ 
+    <div class="slide title-slide" id="slide1">
+        <div>
+            <h1>INFORME DE ORACLE-BD<span> MARKETING</span></h1>
+            <h2>Ecosistema de Datos Relacionales "TRNDVISION"</h2>
+            <div class="meta-box">
+                <table>
+                    <tr><td class="label">Carrera:</td><td class="value">Ingeniería De Sistemas e Informática</td></tr>
+                    <tr><td class="label">Integrantes:</td><td class="value">Diego Alexander Huachaca Chumbile (U24242571)<br>Noelia Priscila Calva Antonio (U22305370)</td></tr>
+                    <tr><td class="label">Ingeniero:</td><td class="value">J. Fernando Matos Vera</td></tr>
+                    <tr><td class="label">Sección:</td><td class="value">28577</td></tr>
+                    <tr><td class="label">Fecha:</td><td class="value">Huancayo, 11 de Junio de 2026</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION E-COMMERCE</span>
+            <span>Diapositiva 1</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide2">
+        <div class="slide-header">
+            <h2>Introducción</h2>
+            <div class="section-tag">Contexto Comercial</div>
+        </div>
+        <div class="slide-body">
+            <div class="card card-accent">
+                <p>En el actual y altamente competitivo sector del comercio electrónico, la capacidad de rastrear, medir y analizar el impacto de la inversión publicitaria constituye la principal ventaja competitiva de una organización.</p>
+            </div>
+            <h3>El Desafío Operativo</h3>
+            <p><strong>"TRNDVISION"</strong> se enfrenta al desafío de gestionar un ecosistema digital fragmentado, donde los datos provenientes de múltiples canales de adquisición (como TikTok Business, Instagram Ads y Google Shopping) generan silos de información.</p>
+            <p>Esta desconexión impide trazar el recorrido completo desde la asignación del presupuesto inicial hasta la conversión final del cliente, dificultando la identificación de las estrategias comerciales más rentables.</p>
+            <h3>La Solución a través de Datos</h3>
+            <p>Para resolver esta brecha tecnológica y operativa, el presente documento expone el desarrollo integral de un sistema de bases de datos relacional, guiado estrictamente por las cinco fases estándar de creación de bases de datos: <strong>Planificación, Diseño Conceptual, Diseño Lógico, Diseño Físico e Implementación</strong>, complementadas con las etapas posteriores de <strong>Pruebas y Mantenimiento</strong>.</p>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Ingeniería de Sistemas</span>
+            <span>Diapositiva 2</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide3">
+        <div class="slide-header">
+            <h2>Resumen Ejecutivo e Identidad</h2>
+            <div class="section-tag">Filosofía Corporativa</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div>
+                <h3>Resumen Ejecutivo</h3>
+                <p>El presente proyecto detalla el ciclo de vida completo para el diseño, estructuración e implementación de una base de datos relacional orientada a la gestión y optimización de las operaciones de marketing digital para "TRNDVISION", un e-commerce emergente especializado en moda urbana.</p>
+                <p>Mediante la aplicación rigurosa de las reglas de normalización hasta alcanzar la Tercera Forma Normal (3FN), el sistema elimina la redundancia de datos y previene anomalías transaccionales, centralizando las métricas operativas conectando cinco pilares: catálogo de campañas, distribución de presupuestos, segmentación de audiencias, canales y resultados de conversión.</p>
+            </div>
+            <div>
+                <div class="card" style="margin-bottom: 15px;">
+                    <strong style="color: #ccff00; text-transform: uppercase; font-size: 10.5pt; letter-spacing: 1px;">Misión</strong>
+                    <p style="font-size: 11pt; margin-top: 5px;">Ofrecer prendas de moda urbana de alta calidad que conecten profundamente con la autenticidad y el estilo de vida dinámico de nuestros clientes, respaldando decisiones comerciales en tiempo real sustentadas estrictamente en el análisis de datos puros.</p>
+                </div>
+                <div class="card">
+                    <strong style="color: #ccff00; text-transform: uppercase; font-size: 10.5pt; letter-spacing: 1px;">Visión</strong>
+                    <p style="font-size: 11pt; margin-top: 5px;">Posicionar a TRNDVISION como el e-commerce de ropa urbana líder e influyente a nivel nacional, consolidando un ecosistema inteligente e interconectado que siente las bases para la futura integración de herramientas de inteligencia artificial y análisis predictivo.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Estrategia Digital</span>
+            <span>Diapositiva 3</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide4">
+        <div class="slide-header">
+            <h2>1. Planificación</h2>
+            <div class="section-tag">Fase 1: Alcance Inicial</div>
+        </div>
+        <div class="slide-body">
+            <h3>1.1. Definición de objetivos y alcance</h3>
+            <p><strong>Problema a resolver:</strong> El departamento de marketing del e-commerce "TRNDVISION" carecía de un sistema de información estructurado para medir con exactitud el retorno de inversión (ROI) de su publicidad. Existía una desconexión en el registro del presupuesto invertido en diferentes plataformas, el público segmentado y las conversiones finales generadas.</p>
+            
+            <div class="card card-accent" style="margin-top: 15px;">
+                <strong>Objetivo principal:</strong>
+                <p>Diseñar e implementar una base de datos centralizada para "TRNDVISION" que garantice la integridad y vinculación de los datos de marketing. El esquema facilitará el almacenamiento seguro y una recuperación rápida de la información mediante consultas SQL, optimizando la evaluación del rendimiento publicitario.</p>
+            </div>
+ 
+            <h3>Funcionalidades de la Base de Datos</h3>
+            <ul class="grid-2" style="margin-top: 10px;">
+                <li>El catálogo de las campañas publicitarias y sus fechas de ejecución.</li>
+                <li>La asignación de presupuestos económicos mensuales.</li>
+                <li>La segmentación de audiencias y los canales de difusión digital (redes sociales, email, buscadores).</li>
+                <li>Las proyecciones de métricas y los resultados finales (ventas totales en soles y leads capturados).</li>
+            </ul>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Planificación de Proyectos</span>
+            <span>Diapositiva 4</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide5">
+        <div class="slide-header">
+            <h2>1. Planificación</h2>
+            <div class="section-tag">Requerimientos Técnicos</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div>
+                <h3>Requisitos Funcionales (RF)</h3>
+                <ul style="font-size: 11pt; margin-left: 15px;">
+                    <li><strong>RF1:</strong> Registra estrategias publicitarias de forma independiente, almacenando nombre de campaña y fecha exacta de inicio (<code style="color:#ccff00">campanas_mkt</code>).</li>
+                    <li><strong>RF2:</strong> Almacena presupuestos financieros, detallando el monto exacto en soles y el periodo mensual asignado (<code style="color:#ccff00">presupuestos</code>).</li>
+                    <li><strong>RF3:</strong> Cataloga públicos objetivos, guardando el segmento, rango de edad e intereses específicos (<code style="color:#ccff00">audiencias</code>).</li>
+                    <li><strong>RF4:</strong> Mantiene un directorio de canales de difusión clasificando el tipo de plataforma (<code style="color:#ccff00">canales</code>).</li>
+                    <li><strong>RF5:</strong> Unifica la planificación central vinculando campaña, presupuesto, audiencia y canal, guardando clics e impresiones estimadas (<code style="color:#ccff00">metricas</code>).</li>
+                    <li><strong>RF6:</strong> Captura conversiones finales (ventas, leads y estado) cruzándolas con la planificación inicial (<code style="color:#ccff00">resultados</code>).</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Requisitos No Funcionales (RNF)</h3>
+                <div class="card" style="padding: 12px; margin-bottom: 10px;">
+                    <strong style="color: #60a5fa;">RNF1 (Integridad Referencial Estricta):</strong>
+                    <p style="font-size: 10.5pt; margin: 3px 0 0 0;">Impide registros huérfanos. No permite un "resultado" si no está atado a una "métrica", controlado mediante restricciones <code style="color:#ff7b72">FOREIGN KEY</code> y <code style="color:#ff7b72">NOT NULL</code>.</p>
+                </div>
+                <div class="card" style="padding: 12px; margin-bottom: 10px;">
+                    <strong style="color: #facc15;">RNF2 (Automatización de Identificadores):</strong>
+                    <p style="font-size: 10.5pt; margin: 3px 0 0 0;">Crea automáticamente códigos únicos secuenciales sin intervención humana mediante <code style="color:#ff7b72">GENERATED ALWAYS AS IDENTITY</code>.</p>
+                </div>
+                <div class="card" style="padding: 12px;">
+                    <strong style="color: #a7f3d0;">RNF3 (Precisión de Formatos de Datos):</strong>
+                    <p style="font-size: 10.5pt; margin: 3px 0 0 0;">Exige y valida que el dinero se registre con precisión exacta de dos decimales (<code style="color:#79c0ff">NUMBER(10,2)</code>) y las fechas respeten el tipo <code style="color:#79c0ff">DATE</code>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Arquitectura</span>
+            <span>Diapositiva 5</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide6">
+        <div class="slide-header">
+            <h2>1. Planificación</h2>
+            <div class="section-tag">Recursos e Infraestructura</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div>
+                <h3>1.3. Selección de Tecnología</h3>
+                <p>Se optó por una <strong>Base de Datos Relacional (RDBMS)</strong>, específicamente utilizando el entorno de <strong>Oracle Database</strong> y la herramienta gráfica <strong>Oracle SQL Developer</strong>. Esta decisión se justifica por la necesidad estricta de cruzar información financiera y de marketing a través de llaves primarias (PK) y foráneas (FK), uniendo tablas sin perder consistencia.</p>
+ 
+                <h3>1.4. Identificación de Usuarios y Roles</h3>
+                <ul>
+                    <li><strong>Administrador de Base de Datos (DBA):</strong> Acceso total al sistema (Comandos <code style="color:#ccff00">DROP</code>, <code style="color:#ccff00">CREATE</code> y <code style="color:#ccff00">TRUNCATE</code>).</li>
+                    <li><strong>Analistas y Gerentes de Marketing:</strong> Rol estricto de solo lectura (<code style="color:#ccff00">SELECT</code>) para visualizar reportes de ventas y desempeño sin alterar el histórico.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>1.6. Cronograma del Proyecto</h3>
+                <div style="border-left: 2px solid #ccff00; padding-left: 15px;">
+                    <p><strong>Semana 1:</strong> Planificación y recolección de requerimientos con marketing.</p>
+                    <p><strong>Semana 2:</strong> Abstracción y Diseño Conceptual.</p>
+                    <p><strong>Semana 3:</strong> Diseño Lógico y Físico (Normalización en 3FN).</p>
+                    <p><strong>Semana 4:</strong> Implementación mediante scripts de creación DDL y poblado DML.</p>
+                </div>
+                <h3>1.7. Respaldos y Mitigación</h3>
+                <p style="font-size: 11pt;">Control de accesos mediante credenciales cifradas y mitigación del error <strong>ORA-02291</strong> forzando un orden jerárquico de inserción: cargar primero tablas maestras y luego tablas dependientes.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Gobernanza de TI</span>
+            <span>Diapositiva 6</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide7">
+        <div class="slide-header">
+            <h2>2. Diseño Conceptual</h2>
+            <div class="section-tag">Fase 2: Arquitectura del Negocio</div>
+        </div>
+        <div class="slide-body">
+            <p>En esta fase se define la estructura y las relaciones de los datos de manera abstracta, asegurando que todos los aspectos importantes de la estrategia de marketing de TRNDVISION sean considerados antes de la implementación física.</p>
+            
+            <h3>2.2. Modelo Entidad-Relación (Esquema Centralizado en Estrella)</h3>
+            <p>El ecosistema de TRNDVISION se diseñó con cuatro entidades maestras o independientes que rodean y alimentan a una entidad central de planificación (Métricas), la cual desemboca en una entidad transaccional final (Resultados):</p>
+            
+            <div class="star-schema">
+                <div class="schema-row">
+                    <div class="db-table-mock" style="width: 220px;">
+                        <div class="db-table-header">CAMPANAS_MKT [Maestra]</div>
+                        <div class="db-table-row"><span>id_campana</span><span class="pk-badge">PK</span></div>
+                        <div class="db-table-row"><span>nombre_campana</span></div>
+                        <div class="db-table-row"><span>fecha_inicio</span></div>
+                    </div>
+                    <div class="db-table-mock" style="width: 220px;">
+                        <div class="db-table-header">PRESUPUESTOS [Maestra]</div>
+                        <div class="db-table-row"><span>id_presupuesto</span><span class="pk-badge">PK</span></div>
+                        <div class="db-table-row"><span>monto_asignado</span></div>
+                        <div class="db-table-row"><span>periodo_mes</span></div>
+                    </div>
+                </div>
+ 
+                <div style="color: #ccff00; font-weight: bold; font-size: 12pt;">▼ Alimentan Relaciones de Negocio a la Tabla Central ▼</div>
+ 
+                <div class="db-table-mock" style="width: 320px; border: 1px solid #ccff00;">
+                    <div class="db-table-header" style="background: rgba(204,255,0,0.15);">METRICAS [Entidad Analítica Central]</div>
+                    <div class="db-table-row"><span>id_metrica</span><span class="pk-badge">PK</span></div>
+                    <div class="db-table-row"><span>id_campana / id_presupuesto</span><span class="fk-badge">FK</span></div>
+                    <div class="db-table-row"><span>id_audiencia / id_canal</span><span class="fk-badge">FK</span></div>
+                    <div class="db-table-row"><span>nombre_estrategia</span></div>
+                </div>
+ 
+                <div style="color: #60a5fa; font-weight: bold; font-size: 12pt;">▼ Impacta en el Histórico de Rendimiento ▼</div>
+ 
+                <div class="db-table-mock" style="width: 240px;">
+                    <div class="db-table-header">RESULTADOS [Transaccional]</div>
+                    <div class="db-table-row"><span>id_resultado</span><span class="pk-badge">PK</span></div>
+                    <div class="db-table-row"><span>id_metrica</span><span class="fk-badge">FK</span></div>
+                    <div class="db-table-row"><span>ventas_totales_soles</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Modelado de Datos</span>
+            <span>Diapositiva 7</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide8">
+        <div class="slide-header">
+            <h2>2. Diseño Conceptual</h2>
+            <div class="section-tag">Reglas y Semántica</div>
+        </div>
+        <div class="slide-body">
+            <h3>2.3. Identificación de Atributos del Negocio</h3>
+            <ul>
+                <li><strong>Campaña:</strong> ID de campaña, nombre de la campaña, fecha de inicio.</li>
+                <li><strong>Presupuesto:</strong> ID de presupuesto, monto asignado, periodo o mes.</li>
+                <li><strong>Audiencia:</strong> ID de audiencia, nombre del segmento, rango de edad, intereses.</li>
+                <li><strong>Canal:</strong> ID de canal, nombre del canal, tipo de plataforma.</li>
+                <li><strong>Métrica:</strong> ID de métrica, nombre de la estrategia, clics estimados, impresiones esperadas.</li>
+                <li><strong>Resultado:</strong> ID de resultado, ventas totales en soles, leads capturados, estado del objetivo.</li>
+            </ul>
+ 
+            <h3>2.4. Cardinalidad Relacional</h3>
+            <div class="grid-2" style="margin-top: 15px;">
+                <div class="card">
+                    <strong style="color: #ccff00;">Campaña a Métrica (1:N):</strong> Una campaña abarca múltiples métricas, pero cada métrica planificada pertenece a una sola campaña global.
+                </div>
+                <div class="card">
+                    <strong style="color: #ccff00;">Presupuesto a Métrica (1:N):</strong> Un presupuesto mensual puede financiar varias métricas de marketing, pero una métrica consume un único presupuesto.
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Semántica de Datos</span>
+            <span>Diapositiva 8</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide9">
+        <div class="slide-header">
+            <h2>3. Diseño Lógico</h2>
+            <div class="section-tag">Fase 3: Mapeo y Diccionario Relacional</div>
+        </div>
+        <div class="slide-body">
+            <p>El Diseño Lógico consistió en transformar el modelo conceptual en un esquema relacional específico, detallando las tablas y las restricciones sin depender aún de la infraestructura física de almacenamiento.</p>
+            
+            <h3>3.1. Estructura de Tablas de Catálogo Independientes</h3>
+            <div class="grid-2" style="margin-top: 15px;">
+                <div>
+                    <div class="db-table-mock">
+                        <div class="db-table-header">TABLA: campanas_mkt</div>
+                        <div class="db-table-row"><span>id_campana</span><span class="pk-badge">PK (Identity)</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>nombre_campana</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">VARCHAR2(100)</span></div>
+                        <div class="db-table-row"><span>fecha_inicio</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">DATE</span></div>
+                    </div>
+                    <div class="db-table-mock">
+                        <div class="db-table-header">TABLA: presupuestos</div>
+                        <div class="db-table-row"><span>id_presupuesto</span><span class="pk-badge">PK (Identity)</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>monto_asignado</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">NUMBER(10,2)</span></div>
+                        <div class="db-table-row"><span>periodo_mes</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">VARCHAR2(20)</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="db-table-mock">
+                        <div class="db-table-header">TABLA: audiencias</div>
+                        <div class="db-table-row"><span>id_audiencia</span><span class="pk-badge">PK (Identity)</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>nombre_segmento</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">VARCHAR2(100)</span></div>
+                        <div class="db-table-row"><span>edad_rango</span><span>NULL OK</span><span class="type-badge">VARCHAR2(20)</span></div>
+                    </div>
+                    <div class="db-table-mock">
+                        <div class="db-table-header">TABLA: canales</div>
+                        <div class="db-table-row"><span>id_canal</span><span class="pk-badge">PK (Identity)</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>nombre_canal</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">VARCHAR2(50)</span></div>
+                        <div class="db-table-row"><span>tipo_plataforma</span><span>NULL OK</span><span class="type-badge">VARCHAR2(50)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Esquema de Relaciones</span>
+            <span>Diapositiva 9</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide10">
+        <div class="slide-header">
+            <h2>3. Diseño Lógico</h2>
+            <div class="section-tag">Tablas Conectoras del Negocio</div>
+        </div>
+        <div class="slide-body">
+            <h3>3.1. Estructura de Tablas Centrales y Transaccionales</h3>
+            <p>Representación de las llaves foráneas (<code style="color:#60a5fa">FK</code>) mapeadas en el núcleo del esquema de estrella para asegurar que ningún registro quede desvinculado:</p>
+ 
+            <div class="db-table-mock" style="margin-top: 15px;">
+                <div class="db-table-header">TABLA CENTRAL COMPUESTA: metricas</div>
+                <div class="grid-2" style="padding: 10px;">
+                    <div>
+                        <div class="db-table-row"><span>id_metrica</span><span class="pk-badge">PK</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>id_campana</span><span class="fk-badge">FK ➔ campanas_mkt</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>id_presupuesto</span><span class="fk-badge">FK ➔ presupuestos</span><span class="type-badge">NUMBER</span></div>
+                    </div>
+                    <div>
+                        <div class="db-table-row"><span>id_audiencia</span><span class="fk-badge">FK ➔ audiencias</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>id_canal</span><span class="fk-badge">FK ➔ canales</span><span class="type-badge">NUMBER</span></div>
+                        <div class="db-table-row"><span>nombre_estrategia</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">VARCHAR2(100)</span></div>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="db-table-mock">
+                <div class="db-table-header">TABLA TRANSACCIONAL DE CIERRE: resultados</div>
+                <div class="db-table-row"><span>id_resultado</span><span class="pk-badge">PK</span><span class="type-badge">NUMBER</span></div>
+                <div class="db-table-row"><span>id_metrica</span><span class="fk-badge">FK ➔ metricas</span><span class="type-badge">NUMBER</span></div>
+                <div class="db-table-row"><span>ventas_totales_soles</span><span style="color:#ff7b72;">NOT NULL</span><span class="type-badge">NUMBER(10,2)</span></div>
+                <div class="db-table-row"><span>leads_capturados</span><span>NULL OK</span><span class="type-badge">NUMBER</span></div>
+                <div class="db-table-row"><span>estado_objetivo</span><span>NULL OK</span><span class="type-badge">VARCHAR2(50)</span></div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Claves Foráneas</span>
+            <span>Diapositiva 10</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide11">
+        <div class="slide-header">
+            <h2>3. Diseño Lógico</h2>
+            <div class="section-tag">Rigor Relacional y Calidad</div>
+        </div>
+        <div class="slide-body">
+            <h3>3.4. Proceso de Normalización Estricta (1FN a 3FN)</h3>
+            <p>Se aplicó la normalización para evitar duplicación de datos y asegurar consistencia, garantizando que cada dato se almacene una sola vez para reducir redundancias perjudiciales:</p>
+            
+            <div class="card card-accent" style="margin-bottom: 12px; padding: 12px;">
+                <strong>1FN (Primera Forma Normal): Atomicidad</strong>
+                <p style="font-size: 11pt; margin-top: 2px;">Se eliminaron por completo grupos repetitivos y se aseguró que todos los atributos sean atómicos y no compuestos.</p>
+            </div>
+ 
+            <div class="card card-accent" style="margin-bottom: 12px; padding: 12px;">
+                <strong>2FN (Segunda Forma Normal): Dependencia Funcional Completa</strong>
+                <p style="font-size: 11pt; margin-top: 2px;">Se aplicó la 1FN y se aseguró que todos los atributos no clave dependan de forma completa y directa de la clave primaria.</p>
+            </div>
+ 
+            <div class="card card-accent" style="padding: 12px;">
+                <strong>3FN (Tercera Forma Normal): Dependencia No Transitiva</strong>
+                <p style="font-size: 11pt; margin-top: 2px;">Se eliminaron las dependencias transitivas. Esto se refleja directamente al haber creado tablas maestras independientes para canales y audiencias, evitando escribir texto plano repetido como "Jóvenes Urbanos Lima" o "Facebook Ads" de manera innecesaria dentro de la tabla de métricas.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Tercera Forma Normal</span>
+            <span>Diapositiva 11</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide12">
+        <div class="slide-header">
+            <h2>4. Diseño Físico</h2>
+            <div class="section-tag">Fase 4: Configuración del SGBD</div>
+        </div>
+        <div class="slide-body">
+            <p>En esta fase, se define cómo se almacenarán físicamente los datos en el sistema gestor de bases de datos (SGBD) de <strong>Oracle</strong>, optimizando las operaciones de indexación y el rendimiento del almacenamiento en disco.</p>
+            
+            <h3>4.2. Definición y Mapeo de Tipos de Datos Físicos</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 11.5pt;">
+                <thead>
+                    <tr style="background-color: #1f293d; color: #ccff00; text-align: left;">
+                        <th style="padding: 10px; border-radius: 6px 0 0 6px;">Estructura Física</th>
+                        <th style="padding: 10px;">Campos Ejemplificados</th>
+                        <th style="padding: 10px; border-radius: 0 6px 6px 0;">Propósito y Regla de Negocio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #1f293d;">
+                        <td style="padding: 10px; font-family: monospace; color:#79c0ff;">VARCHAR2</td>
+                        <td style="padding: 10px;">nombre_campana, intereses, estado_objetivo</td>
+                        <td style="padding: 10px;">Cadenas de texto dinámicas alfanuméricas de longitud controlada para ahorrar bloques físicos de datos.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1f293d;">
+                        <td style="padding: 10px; font-family: monospace; color:#79c0ff;">NUMBER</td>
+                        <td style="padding: 10px;">id_metrica, clics_estimados, leads_capturados</td>
+                        <td style="padding: 10px;">Formatos numéricos de alta eficiencia secuencial para control de autoincrementos matemáticos.</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1f293d;">
+                        <td style="padding: 10px; font-family: monospace; color:#79c0ff;">NUMBER(10,2)</td>
+                        <td style="padding: 10px;">monto_asignado, ventas_totales_soles</td>
+                        <td style="padding: 10px;"><strong>Precisión comercial e integridad financiera:</strong> Garantiza dos decimales fijos para evitar pérdidas flotantes.</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; font-family: monospace; color:#79c0ff;">DATE</td>
+                        <td style="padding: 10px;">fecha_inicio</td>
+                        <td style="padding: 10px;">Estructura cronológica para cálculos nativos de tiempo y vigencia de estrategias.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Almacenamiento Oracle</span>
+            <span>Diapositiva 12</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide13">
+        <div class="slide-header">
+            <h2>4. Diseño Físico</h2>
+            <div class="section-tag">Rendimiento e Indexación</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div>
+                <h3>4.4. Creación y Organización de Índices</h3>
+                <p>En el modelo de TRNDVISION, Oracle genera automáticamente índices únicos de alto rendimiento sobre las llaves primarias estructurales (<code style="color:#ccff00">id_metrica</code>, <code style="color:#ccff00">id_campana</code>, etc.).</p>
+                <p>Adicionalmente, el diseño contempla la indexación de las claves foráneas en la tabla central de métricas para acelerar dramáticamente los cruces de tablas cuando el equipo de marketing filtra agrupando por canal o audiencias específicas.</p>
+            </div>
+            <div>
+                <h3>4.5. Tablespaces y Consultas Frecuentes</h3>
+                <p>Los objetos de usuario se almacenan en el tablespace por defecto (<code style="color:#ccff00">USERS</code>), aislando las transacciones del negocio en entornos controlados de red.</p>
+                <p>El diseño en "estrella" permite que consultas analíticas frecuentes de control estratégico se resuelvan con operaciones de cruce directo (<code style="color:#ccff00">JOIN</code>) hacia el núcleo central, evitando recorrer registros de forma desorganizada y asegurando un tiempo de respuesta inmediato en milisegundos.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Ingeniería Física</span>
+            <span>Diapositiva 13</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide14">
+        <div class="slide-header">
+            <h2>5. Implementación</h2>
+            <div class="section-tag">Fase 5: Despliegue Físico en Oracle SQL</div>
+        </div>
+        <div class="slide-body">
+            <h3>5.1. Script de Definición de Estructura de Datos (DDL)</h3>
+            <p>Este es el bloque de instrucciones estructurado ejecutado de forma unificada en la consola de comandos de Oracle para instanciar el esquema relacional:</p>
+            
+            <div class="sql-block" style="max-height: 380px; overflow-y: auto; font-size: 9pt;">
+<span class="sql-keyword">CREATE TABLE</span> campanas_mkt (
+    id_campana <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    nombre_campana <span class="sql-type">VARCHAR2(100)</span> <span class="sql-const">NOT NULL</span>,
+    fecha_inicio <span class="sql-type">DATE</span> <span class="sql-const">NOT NULL</span>
+);
+ 
+<span class="sql-keyword">CREATE TABLE</span> presupuestos (
+    id_presupuesto <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    monto_asignado <span class="sql-type">NUMBER(10,2)</span> <span class="sql-const">NOT NULL</span>,
+    periodo_mes <span class="sql-type">VARCHAR2(20)</span> <span class="sql-const">NOT NULL</span>
+);
+ 
+<span class="sql-keyword">CREATE TABLE</span> audiencias (
+    id_audiencia <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    nombre_segmento <span class="sql-type">VARCHAR2(100)</span> <span class="sql-const">NOT NULL</span>,
+    edad_rango <span class="sql-type">VARCHAR2(20)</span>,
+    intereses <span class="sql-type">VARCHAR2(200)</span>
+);
+ 
+<span class="sql-keyword">CREATE TABLE</span> canales (
+    id_canal <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    nombre_canal <span class="sql-type">VARCHAR2(50)</span> <span class="sql-const">NOT NULL</span>,
+    tipo_plataforma <span class="sql-type">VARCHAR2(50)</span>
+);
+ 
+<span class="sql-keyword">CREATE TABLE</span> metricas (
+    id_metrica <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    id_campana <span class="sql-type">NUMBER</span> <span class="sql-const">NOT NULL</span>,
+    id_presupuesto <span class="sql-type">NUMBER</span> <span class="sql-const">NOT NULL</span>,
+    id_audiencia <span class="sql-type">NUMBER</span> <span class="sql-const">NOT NULL</span>,
+    id_canal <span class="sql-type">NUMBER</span> <span class="sql-const">NOT NULL</span>,
+    nombre_estrategia <span class="sql-type">VARCHAR2(100)</span> <span class="sql-const">NOT NULL</span>,
+    clics_estimados <span class="sql-type">NUMBER</span>,
+    impresiones_esperadas <span class="sql-type">NUMBER</span>,
+    
+    <span class="sql-keyword">CONSTRAINT</span> fk_met_campana <span class="sql-keyword">FOREIGN KEY</span> (id_campana) <span class="sql-keyword">REFERENCES</span> campanas_mkt(id_campana),
+    <span class="sql-keyword">CONSTRAINT</span> fk_met_presupuesto <span class="sql-keyword">FOREIGN KEY</span> (id_presupuesto) <span class="sql-keyword">REFERENCES</span> presupuestos(id_presupuesto),
+    <span class="sql-keyword">CONSTRAINT</span> fk_met_audiencia <span class="sql-keyword">FOREIGN KEY</span> (id_audiencia) <span class="sql-keyword">REFERENCES</span> audiencias(id_audiencia),
+    <span class="sql-keyword">CONSTRAINT</span> fk_met_canal <span class="sql-keyword">FOREIGN KEY</span> (id_canal) <span class="sql-keyword">REFERENCES</span> canales(id_canal)
+);
+ 
+<span class="sql-keyword">CREATE TABLE</span> resultados (
+    id_resultado <span class="sql-type">NUMBER</span> <span class="sql-const">GENERATED ALWAYS AS IDENTITY</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    id_metrica <span class="sql-type">NUMBER</span> <span class="sql-const">NOT NULL</span>,
+    ventas_totales_soles <span class="sql-type">NUMBER(10,2)</span> <span class="sql-const">NOT NULL</span>,
+    leads_capturados <span class="sql-type">NUMBER</span>,
+    estado_objetivo <span class="sql-type">VARCHAR2(50)</span>,
+    
+    <span class="sql-keyword">CONSTRAINT</span> fk_res_metrica <span class="sql-keyword">FOREIGN KEY</span> (id_metrica) <span class="sql-keyword">REFERENCES</span> metricas(id_metrica)
+);</div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Script de Creación DDL</span>
+            <span>Diapositiva 14</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide15">
+        <div class="slide-header">
+            <h2>5. Implementación</h2>
+            <div class="section-tag">Manipulación de Datos y Estrés</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div>
+                <h3>5.2. Carga Inserción de Datos (DML)</h3>
+                <p>Utilizando el Lenguaje de Manipulación de Datos (DML), se pobló la base de datos mediante sentencias <code style="color:#ccff00">INSERT INTO</code> siguiendo un orden estrictamente jerárquico para no romper restricciones referenciales:</p>
+                <div class="sql-block" style="font-size: 9.5pt;">
+<span class="sql-keyword">INSERT INTO</span> campanas_mkt (nombre_campana, fecha_inicio) 
+<span class="sql-keyword">VALUES</span> ('CyberWow Ropa Urbana', TO_DATE('2026-03-01', 'YYYY-MM-DD'));
+ 
+<span class="sql-keyword">INSERT INTO</span> presupuestos (monto_asignado, periodo_mes) 
+<span class="sql-keyword">VALUES</span> (3500.00, 'Marzo 2026');</div>
+                <p style="font-size: 11pt;">Mediante el bloque PL/SQL de carga masiva se insertaron 25 iteraciones cruzando identificadores, generando aleatoriamente hasta 80 000 impresiones esperadas y hasta 300 leads capturados por métrica.</p>
+            </div>
+            <div>
+                <h3>5.3. Pruebas de Estrés y Consistencia</h3>
+                <div class="card" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <strong style="color: #ef4444;">Frenado Defensivo de Errores (ORA-02291):</strong>
+                    <p style="font-size: 11pt; margin-top: 5px; color: #fca5a5;">El sistema demostró su capacidad defensiva de integridad al emitir bloqueos de seguridad estrictos al intentar insertar registros transaccionales en la tabla resultados vinculados a códigos de métricas inexistentes en el sistema.</p>
+                    <p style="font-size: 11pt; color: #fca5a5; margin-bottom:0;">Esto garantizó físicamente ante auditorías que es imposible registrar información comercial huérfana o adulterada.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Fase de Pruebas</span>
+            <span>Diapositiva 15</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide16">
+        <div class="slide-header">
+            <h2>5.3. Pruebas de la Base de Datos (I)</h2>
+            <div class="section-tag">Verificación Funcional</div>
+        </div>
+        <div class="slide-body">
+            <p>Antes de pasar a producción, se ejecutó una batería de pruebas sobre el esquema TRNDVISION para validar conexión, integridad y operaciones básicas.</p>
+ 
+            <div class="mini-card">
+                <strong>5.3.1. Pruebas de conexión</strong>
+                <p>Se verificó que el esquema TRNDVISION respondiera correctamente al ejecutar consultas sobre las vistas de reportería (ej. Resumen_Marketing), confirmando que la conexión al SGBD Oracle está activa y estable.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.2. Pruebas de integridad de datos</strong>
+                <p>Se intentó insertar un registro en <code style="color:#ccff00">resultados</code> con un <code style="color:#ccff00">id_metrica</code> inexistente. Oracle rechazó la operación con el error <span class="ex">ORA-02291</span>, confirmando que la restricción <code style="color:#ccff00">fk_res_metrica</code> (FOREIGN KEY) protege la integridad referencial e impide resultados huérfanos.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.3. Pruebas de inserción, actualización y eliminación</strong>
+                <p>Se insertó una nueva campaña, se actualizó su <code style="color:#ccff00">fecha_inicio</code>, y al intentar eliminarla se comprobó que Oracle bloquea el DELETE si existen métricas asociadas, protegiendo el historial y evitando registros huérfanos en cascada.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.4. Pruebas de consultas</strong>
+                <p>Se consultó la vista <code style="color:#ccff00">ROI_Campanas</code> y se verificó manualmente que el <code style="color:#ccff00">porcentaje_roi</code> coincide con la fórmula (ventas_totales_soles − monto_asignado) / monto_asignado × 100.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Pruebas de la Base de Datos</span>
+            <span>Diapositiva 16</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide17">
+        <div class="slide-header">
+            <h2>5.3. Pruebas de la Base de Datos (II)</h2>
+            <div class="section-tag">Rendimiento, Concurrencia y Recuperación</div>
+        </div>
+        <div class="slide-body">
+            <div class="mini-card">
+                <strong>5.3.5. Pruebas de rendimiento</strong>
+                <p>Tras la carga masiva de 25 iteraciones (150 registros en metricas y resultados), las consultas con JOIN sobre las 10 vistas (como Resumen_Marketing) respondieron de forma inmediata, gracias a los índices automáticos generados sobre las llaves primarias y foráneas.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.6. Pruebas de concurrencia</strong>
+                <p>Dos analistas de marketing consultando simultáneamente la vista Resumen_Marketing no generaron bloqueos ni conflictos, al tratarse de operaciones de solo lectura (SELECT) sobre datos consolidados.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.7. Pruebas de seguridad</strong>
+                <p>Se comprobó que un usuario con rol de Analista/Gerente de Marketing (solo lectura) no puede ejecutar DELETE, TRUNCATE ni DROP sobre las tablas, mientras que el DBA/Ingeniero de Datos sí tiene permisos completos, conforme a los roles definidos en 1.4.</p>
+            </div>
+ 
+            <div class="mini-card">
+                <strong>5.3.8. Pruebas de respaldo y recuperación</strong>
+                <p>Se generó un respaldo estructural mediante Ingeniería Inversa de Oracle Data Modeler y la exportación de scripts DDL/DML. Simulando una pérdida de datos con TRUNCATE, se verificó que la base de datos se puede recrear ejecutando nuevamente el script de creación y el bloque PL/SQL de carga masiva.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Pruebas de la Base de Datos</span>
+            <span>Diapositiva 17</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide18">
+        <div class="slide-header">
+            <h2>6. Mantenimiento (I)</h2>
+            <div class="section-tag">Corrección, Estructura y Rendimiento</div>
+        </div>
+        <div class="slide-body">
+            <p>La fase de mantenimiento asegura que la base de datos de TRNDVISION siga funcionando correctamente a lo largo del tiempo, mediante ajustes, correcciones y mejoras sobre el sistema ya desplegado.</p>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.1. Corrección de errores (debugging)</strong>
+                <p>La vista ROI_Campanas devolvía un <code style="color:#facc15">porcentaje_roi</code> inconsistente cuando <code style="color:#facc15">monto_asignado</code> era 0. Se revisó la lógica del CASE WHEN y se ajustó la condición para evitar divisiones erróneas, mostrando 0 en dichos casos.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.2. Actualización de datos y estructuras</strong>
+                <p>El equipo de marketing incorporó el campo <code style="color:#facc15">objetivo_campana</code> (Ventas, Leads o Awareness) mediante <span class="ex">ALTER TABLE campanas_mkt ADD objetivo_campana VARCHAR2(50);</span>, actualizando los registros existentes.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.3. Optimización del rendimiento</strong>
+                <p>Ante la lentitud de la vista Resumen_Marketing por el crecimiento de campañas, se creó un índice adicional sobre <code style="color:#facc15">id_campana</code> en la tabla metricas para acelerar los cruces (JOIN) con campanas_mkt.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.4. Gestión de seguridad</strong>
+                <p>Al incorporar un nuevo analista de marketing, se le creó un usuario con permisos de solo lectura (SELECT) sobre ROI_Campanas y Resumen_Marketing, sin acceso de escritura a las tablas base, conforme a los roles definidos.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Mantenimiento del Sistema</span>
+            <span>Diapositiva 18</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide19">
+        <div class="slide-header">
+            <h2>6. Mantenimiento (II)</h2>
+            <div class="section-tag">Respaldo, Auditoría y Actualización del SGBD</div>
+        </div>
+        <div class="slide-body">
+            <div class="mini-card maint-card">
+                <strong>6.5. Respaldo y recuperación</strong>
+                <p>Cada noche se genera un respaldo del script DDL/DML actualizado. Mensualmente se prueba restaurarlo en un entorno de pruebas, verificando que las 150 filas de metricas y resultados se recuperen correctamente.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.6. Auditoría de uso y logs</strong>
+                <p>Al revisar los logs de Oracle se detectó que un usuario Analista intentó ejecutar un DELETE sobre resultados. Al no tener permisos, la operación fue bloqueada; se documentó el incidente y se reforzaron sus privilegios de solo lectura.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.7. Actualización del SGBD</strong>
+                <p>Ante una nueva versión de Oracle Database que mejora el manejo de índices y consultas analíticas, se planifica su actualización en un entorno de pruebas antes de aplicarla a producción, evitando interrupciones en el reporte gerencial.</p>
+            </div>
+ 
+            <div class="mini-card maint-card">
+                <strong>6.8. Documentación continua</strong>
+                <p>Al agregar la columna objetivo_campana (6.2) o cualquier nueva vista, se actualiza este informe y el diccionario de datos, reflejando los cambios en las tablas y en las 10 vistas SQL disponibles para el equipo de marketing.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION - Mantenimiento del Sistema</span>
+            <span>Diapositiva 19</span>
+        </div>
+    </div>
+ 
+    <div class="slide" id="slide20">
+        <div class="slide-header">
+            <h2>Conclusión Final</h2>
+            <div class="section-tag">Cierre Integral del Proyecto (7 Fases)</div>
+        </div>
+        <div class="slide-body grid-2">
+            <div class="card card-accent">
+                <strong>1. Integridad y Optimización Estructural:</strong>
+                <p style="font-size: 11pt; margin-top: 5px; margin-bottom:0;">La aplicación rigurosa de las reglas hasta la 3FN (Diseño Lógico) eliminó la redundancia de datos. Al aislar las entidades maestras de las transaccionales, se garantizó que la base de datos de TRNDVISION sea eficiente, libre de anomalías y protegida contra registros huérfanos.</p>
+            </div>
+            <div class="card card-accent">
+                <strong>2. Trazabilidad Financiera y ROI:</strong>
+                <p style="font-size: 11pt; margin-top: 5px; margin-bottom:0;">El diseño lógico en estrella y su implementación resolvieron el problema principal de marketing. Es posible trazar una línea directa y exacta entre cada sol invertido en un presupuesto mensual y las ventas finales o leads capturados mediante simples consultas estructuradas.</p>
+            </div>
+            <div class="card card-accent">
+                <strong>3. Solidez Comprobada por Pruebas:</strong>
+                <p style="font-size: 11pt; margin-top: 5px; margin-bottom:0;">La fase de Pruebas (5.3) confirmó, mediante ensayos de conexión, integridad, concurrencia, seguridad y respaldo, que el sistema responde correctamente ante escenarios reales de uso y ante intentos de romper las restricciones de negocio.</p>
+            </div>
+            <div class="card card-accent">
+                <strong>4. Continuidad Operativa por Mantenimiento:</strong>
+                <p style="font-size: 11pt; margin-top: 5px; margin-bottom:0;">La fase de Mantenimiento (6) garantiza que TRNDVISION siga evolucionando: corrección de errores, ampliación de estructuras, optimización de índices, gestión de seguridad, respaldos periódicos, auditoría de logs y documentación continua.</p>
+            </div>
+        </div>
+        <div class="slide-body" style="flex-grow: 0; margin-top: 10px;">
+            <div class="card" style="background: rgba(204,255,0,0.06); border: 1px solid rgba(204,255,0,0.25);">
+                <p style="margin-bottom: 0; font-size: 11.5pt;">En conjunto, las <strong>7 fases</strong> — Planificación, Diseño Conceptual, Diseño Lógico, Diseño Físico, Implementación, Pruebas y Mantenimiento — transformaron un entorno de datos fragmentados en una herramienta de inteligencia de negocios centralizada, escalable y confiable para TRNDVISION, permitiendo decisiones comerciales basadas en evidencia y no en suposiciones.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TRNDVISION 2026 - Fin de la Presentación</span>
+            <span>Diapositiva 20</span>
+        </div>
+    </div>
+ 
+</body>
+</html>
